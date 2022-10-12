@@ -5,7 +5,6 @@ import com.example.ffmjava22springbootshop.ordersystem.shop.order.OrderRepo;
 import com.example.ffmjava22springbootshop.ordersystem.shop.product.Product;
 import com.example.ffmjava22springbootshop.ordersystem.shop.product.ProductRepo;
 import org.junit.jupiter.api.Test;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,13 +36,13 @@ class ShopServiceTest {
         //GIVEN
         when(serviceUtils.generateUUID()).thenReturn("1234");
         // doNothing muss vor den Test, da addProduct void ist und nichts zurück gibt
-        doNothing().when(productRepo).addProduct("1234",new Product("5","Apfel"));
+        doNothing().when(productRepo).addProduct("1234",new Product("1234","Apfel"));
         //WHEN
-        String actual = shopService.addProduct(new Product("5","Apfel"));
+        Product actual = shopService.addProduct(new Product("1234","Apfel"));
         //THEN
-        String expected = "1234 : Product[id=5, name=Apfel]";
+        Product expected = new Product("1234","Apfel");
         // verify: um die Repoaufrufe zu testen
-        verify(productRepo).addProduct("1234",new Product("5","Apfel"));
+        verify(productRepo).addProduct("1234",new Product("1234","Apfel"));
         verify(serviceUtils).generateUUID();
         assertEquals(expected,actual);
     }

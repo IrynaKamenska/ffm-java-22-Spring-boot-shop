@@ -1,5 +1,7 @@
 package com.example.ffmjava22springbootshop.ordersystem;
 
+import com.example.ffmjava22springbootshop.ordersystem.shop.product.Product;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,8 +21,8 @@ class ShopControllerIntegrationsTest {
     @Autowired
     private MockMvc mockMvc;
 
-//    @Autowired
-//    private ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
 
     @Test
@@ -50,50 +52,6 @@ class ShopControllerIntegrationsTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/products"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(body));
-
-    }
-
-
-    @Test
-    @DirtiesContext
-    void addProduct() throws Exception {
-        String body = """
-                    {
-                        "id": "5",
-                        "name": "Birne"
-                    }
-                """;
-
-        String content = mockMvc.perform(MockMvcRequestBuilders.post("/api/products")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(body))
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
-
-        System.out.println(content);
-
-//        Product product = objectMapper.readValue(content,Product.class);
-
-        String expected = """
-                [
-                    {
-                      "id": "1","name": "Apfel"
-                    },
-                    {
-                     "id": "2","name": "Banane"
-                    },
-                    {
-                    "id": "3","name": "Zitrone"
-                    },
-                    {
-                    "id": "4","name": "Mandarine"
-                    },
-                    {"id":"5","name":"Birne"}
-                ]
-                """;
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/products"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(expected));
 
     }
 
@@ -154,6 +112,36 @@ class ShopControllerIntegrationsTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/orders/" + id))
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
+
+    }
+
+    @Test
+    @DirtiesContext
+    void addProductWithoutId() throws Exception {
+        String body = """
+                    {
+                        "name": "Birne"
+                    }
+                """;
+
+        String content = mockMvc.perform(MockMvcRequestBuilders.post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        System.out.println(content);
+
+        Product product = objectMapper.readValue(content,Product.class);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/products/" + product.id()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+            {
+                "id": "<id>",
+                "name": "Birne"
+             }   
+                """
+                .replace("<id>", product.id())));
 
     }
 

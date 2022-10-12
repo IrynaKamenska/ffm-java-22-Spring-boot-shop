@@ -5,7 +5,6 @@ import com.example.ffmjava22springbootshop.ordersystem.shop.order.Order;
 import com.example.ffmjava22springbootshop.ordersystem.shop.product.Product;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("api")
@@ -62,8 +61,7 @@ public class ShopController {
     // POST Produkte
     @PostMapping("/products")
     public Product addProduct(@RequestBody Product product){
-        shopService.addProduct(product);
-        return product;
+        return shopService.addProduct(product);
     }
 
 
