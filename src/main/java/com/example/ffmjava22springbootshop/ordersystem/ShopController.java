@@ -2,6 +2,7 @@ package com.example.ffmjava22springbootshop.ordersystem;
 
 import com.example.ffmjava22springbootshop.ordersystem.shop.ShopService;
 import com.example.ffmjava22springbootshop.ordersystem.shop.order.Order;
+import com.example.ffmjava22springbootshop.ordersystem.shop.order.OrderStatus;
 import com.example.ffmjava22springbootshop.ordersystem.shop.product.Product;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +40,11 @@ public class ShopController {
     @GetMapping(path="/products/{id}")
     public Product getProductByID(@PathVariable String id){
         return shopService.getProduct(id);
+    }
+
+    @GetMapping(path="/ordersWithStatus/{orderStatus}")
+    public List<Order> getOrdersByStatus(@PathVariable OrderStatus orderStatus){
+        return shopService.getOrdersByStatus(orderStatus);
     }
 
     // POST Orders

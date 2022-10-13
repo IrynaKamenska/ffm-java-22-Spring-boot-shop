@@ -2,6 +2,7 @@ package com.example.ffmjava22springbootshop.ordersystem.shop;
 
 import com.example.ffmjava22springbootshop.ordersystem.shop.order.Order;
 import com.example.ffmjava22springbootshop.ordersystem.shop.order.OrderRepo;
+import com.example.ffmjava22springbootshop.ordersystem.shop.order.OrderStatus;
 import com.example.ffmjava22springbootshop.ordersystem.shop.product.Product;
 import com.example.ffmjava22springbootshop.ordersystem.shop.product.ProductRepo;
 import org.junit.jupiter.api.Test;
@@ -59,7 +60,7 @@ class ShopServiceTest {
         Order testOrder = new Order("100", new ArrayList<>(List.of(
                 new Product("1","Apfel"),
                 new Product("2","Banane")
-        )));
+        )), OrderStatus.RECEIVED);
         doNothing().when(orderRepo).addOrder(testOrder);
         when(productRepo.getProduct("1")).thenReturn(new Product("1","Apfel"));
         when(productRepo.getProduct("2")).thenReturn(new Product("2","Banane"));

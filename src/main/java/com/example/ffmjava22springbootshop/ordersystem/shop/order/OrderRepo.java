@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 @Component
 public class OrderRepo {
 
@@ -20,6 +22,12 @@ public class OrderRepo {
         return orders.get(orderId);
     }
 
+    public List<Order> getOrdersByStatus(OrderStatus orderStatus) {
+              return orders.values().stream()
+                       .filter(order -> orderStatus.equals(orderStatus))
+                       .collect(Collectors.toList());
+
+    }
     public List<Order> listOrders() {
         return new ArrayList<>(orders.values());
     }
@@ -27,4 +35,5 @@ public class OrderRepo {
     public void removeOrder(String id) {
         orders.remove(id);
     }
+
 }
