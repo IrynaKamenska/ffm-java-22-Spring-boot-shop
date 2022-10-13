@@ -69,6 +69,15 @@ public class ShopService {
         return orderRepo.getOrdersByStatus(orderStatus);
     }
 
+
+//    public Order addOrder(Order order) {
+//        String id = serviceUtils.generateUUID();
+//        order = new Order(id, );
+//        productRepo.addProduct(id, product);
+//        return product;
+//    }
+
+
     public Order changeOrderStatus(Order order){
         return order;
     }
